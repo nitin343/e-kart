@@ -1,0 +1,21 @@
+.navbar{
+    background-color:skyblue !important;
+ 
+  
+}
+
+.form-inline{
+    padding-right: 50% ;
+}
+
+
+
+@media (max-width: 500px){
+    .from-inline{
+        padding-right: 25%;
+
+        .form{
+            width: 50px;
+        }
+    }
+}

@@ -13,3 +13,10 @@
     border-radius: 20px;
     background-color: rgb(163, 217, 221);
 }
+
+@media (max-width:350px){
+    .directory-menu{
+        width: 300px;
+    
+    }
+}
