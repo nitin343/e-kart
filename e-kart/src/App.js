@@ -9,12 +9,38 @@ import Shop from "./pages/shop/shopPage";
 import Nav from "./component/navBar/nav.component";
 import Header from "./component/header/header.component";
 import SignInAndSignUp from "./pages/sign-in-and-sign-up/sign-in-and-sign-up.component";
+import { auth } from "./firebase/firebase.utils";
 
-function App() {
+
+
+class App extends React.Component  {
+
+  constructor() {
+    super();
+    this.state = {
+      User: null
+    }
+  }
+
+  unsubscribeFromAuth = null
+
+  componentDidMount(){
+   this.unsubscribeFromAuth = auth.onAuthStateChanged(user => {
+      this.setState ({User : user})
+
+      console.log(user)
+    })
+  }
+
+  componentWillUnmount() {
+    this.unsubscribeFromAuth();
+  }
+
+  render() {
   return (
     <BrowserRouter>
       <Nav />
-      <Header />
+      <Header User={this.state.User}/>
         <Switch>
           <Route exact path="/" component={HomePage} />
           <Route path="/shop" exact component={Shop} />
@@ -24,6 +50,6 @@ function App() {
       <Footer />
     </BrowserRouter>
   );
+  }
 }
-
 export default App;
