@@ -10,7 +10,7 @@
     height: 95%;
     background-size: cover;
     background-position: center;
-    margin-bottom: 5px;
+    margin-bottom: 5px; 
   }
 
   .collection-footer {
@@ -18,7 +18,7 @@
     height: 5%;
     display: flex;
     justify-content: space-between;
-    font-size: 18px;
+    
 
     .name {
       width: 90%;
@@ -27,6 +27,42 @@
 
     .price {
       width: 10%;
+    }
+  }
+}
+
+@media screen and(max-width: 850px){
+
+  .collection-item {
+    width: 200px;
+    display: flex;
+    flex-direction: column;
+    height: 250px;
+    align-items: center;
+  
+    .image {
+      width: 100%;
+      height: 95%;
+      background-size: cover;
+      background-position: center;
+      margin-bottom: 5px; 
+    }
+  
+    .collection-footer {
+      width: 100%;
+      height: 5%;
+      display: flex;
+      justify-content: space-between;
+      
+  
+      .name {
+        width: 90%;
+        margin-bottom: 15px;
+      }
+  
+      .price {
+        width: 10%;
+      }
     }
   }
 }

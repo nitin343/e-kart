@@ -2,11 +2,7 @@ import React from "react";
 import FormInput from "../form-input/form-input.component";
 import CButton from "../customButton/CustomButton.component";
 
-import {
-  auth,
-  
-  createdUserProfileDocument,
-} from "../../firebase/firebase.utils";
+import { auth, createUserProfileDocument } from "../../firebase/firebase.utils";
 
 import "./signin.style.scss";
 
@@ -19,7 +15,7 @@ class SignUp extends React.Component {
       password: "",
       confirmPassword: "",
     };
-  }
+}
 
   handleSubmit = async (event) => {
     event.preventDefault();
@@ -31,9 +27,12 @@ class SignUp extends React.Component {
     }
 
     try {
-      const { user } = await auth.createUserWithEmailAndPassword(email, password);
+      const { user } = await auth.createUserWithEmailAndPassword(
+        email,
+        password
+      );
 
-      await createdUserProfileDocument(user, { displayName });
+      await createUserProfileDocument(user, { displayName });
       this.setState({
         displayName: "",
         email: "",
@@ -41,17 +40,17 @@ class SignUp extends React.Component {
         confirmPassword: "",
       });
     } catch (error) {
-      console.log(error);
+      console.log(error);//
     }
   };
 
-  handleChange = event => {
+  handleChange = (event) => {
     const { name, value } = event.target;
     this.setState({ [name]: value });
   };
 
   render() {
-      const {displayName ,email , password , confirmPassword} = this.state;
+    const { displayName, email, password, confirmPassword } = this.state;
     return (
       <div className="sign-up">
         <h2 className="title">I do not have a account</h2>

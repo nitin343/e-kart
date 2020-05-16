@@ -2,7 +2,8 @@ import React from "react";
 import "./Sign-in.style.scss";
 import FormInput from "../form-input/form-input.component";
 import CButton from "../customButton/CustomButton.component";
-import { auth, signInWithGoogle } from "../../firebase/firebase.utils";
+import { auth, signInWithFacebook } from "../../firebase/firebase.utils";
+
 
 
 
@@ -12,24 +13,27 @@ class SignIn extends React.Component {
     this.state = {
       email: "",
       password: "",
+  
     };
   }
+
 
   handelSubmit = async (event) => {
     event.preventDefault();
 
-      const { email , password} =this.state;
+      const { email , password } =this.state;
 
       try{
         await auth.signInWithEmailAndPassword(email, password);
-        this.setState({email: '' , password: ''});
+        this.setState({email: '' , password: '' });
       }catch(error){
         console.log(error);
         
       }
 
-    // this.setState({ eamil: "", password: "" });
   };
+
+
 
   handelChange = (event) => {
     const { value, name } = event.target;
@@ -39,6 +43,7 @@ class SignIn extends React.Component {
 
 
   render() {
+    
     return (
       <div className="sign-in">
         <h2>I already have an account</h2>
@@ -64,7 +69,7 @@ class SignIn extends React.Component {
           />
 <div className='buttons'>
 <CButton type="submit">Sign In</CButton>
-<CButton type='button' onClick={signInWithGoogle} isGoogleSignIn>
+<CButton type='button' handleclick={signInWithFacebook}  isGoogleSignIn>
 Sign in with Google </CButton>
 </div>
       

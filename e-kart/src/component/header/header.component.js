@@ -1,8 +1,9 @@
 import React from "react";
 import "./header.style.scss";
-import { Link } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 import { ReactComponent as Logo } from "../../assets/crown.svg";
 import { auth } from "../../firebase/firebase.utils";
+import { connect } from "react-redux";
 
 const ColoredLine = () => <hr className="line" />;
 
@@ -21,16 +22,24 @@ const Header = ({ User }) => (
         </Link>
       
         {User ? (
-          <div className="option" onClick={() => auth.signOut()}>
-            Sign Out
-          </div>
+          <div  className="option" onClick={() => auth.signOut()} >
+        Sign Out 
+           </div> 
+  
         ) : (
-          <Link className='option' to='/SigIn'>Sig In </Link>
+          <Link className='option' to='/signIn'>Sign In </Link>
         )}
+
+
+   
       </div>
     </div>
     <ColoredLine color="red" />
   </div>
 );
 
-export default Header;
+const mapStateToProps = state => ({
+       User: state.user.User
+})
+
+export default connect(mapStateToProps, null)(Header);

@@ -4,48 +4,50 @@ import "./App.css";
 import HomePage from "./pages/homepage/homepage.component";
 
 
-import { BrowserRouter, Route, link, Switch } from "react-router-dom";
+import {  Route, link, Switch, Redirect } from "react-router-dom";
 import Shop from "./pages/shop/shopPage";
 import Nav from "./component/navBar/nav.component";
 import Header from "./component/header/header.component";
 import SignInAndSignUp from "./pages/sign-in-and-sign-up/sign-in-and-sign-up.component";
-import { auth  ,createdUserProfileDocument} from "./firebase/firebase.utils";
+import { auth  ,createUserProfileDocument} from "./firebase/firebase.utils";
+import { connect } from "react-redux";
+import { setUser } from "./redux/user/user.action";
 
 class App extends React.Component  {
 
-  constructor() {
-    super();
-    this.state = {
-      User: null
-    }
-  }
+
 
   unsubscribeFromAuth = null
 
   componentDidMount(){
+
+    const  { setUser} = this.props;
+
    this.unsubscribeFromAuth = auth.onAuthStateChanged(async userAuth => {
     if(userAuth) {
-      const userRef = await createdUserProfileDocument(userAuth);
+      const userRef = await createUserProfileDocument(userAuth);
 
       userRef.onSnapshot(snapShot => {
-       this.setState({
-         User:{
+       setUser({
+       
            id: snapShot.id,
            ...snapShot.data()
-         }
+         
        })
-       console.log(this.state);
+      //  console.log(this.state);
        
       });
       
     }
-     this.setState({User: userAuth})
-    // createdUserProfileDocument(user)  
+  setUser(userAuth)
+    // createUserProfileDocument(snapShot)  
 
 
-      // console.log(user)
+      // console.log(snapShot)
     })
   }
+
+ 
 
   componentWillUnmount() {
     this.unsubscribeFromAuth();
@@ -53,18 +55,26 @@ class App extends React.Component  {
 
   render() {
   return (
-    <BrowserRouter>
-      <Nav />
-      <Header User={this.state.User}/>
-        <Switch>
-          <Route exact path="/" component={HomePage} />
-          <Route path="/shop" exact component={Shop} />
-          <Route path="/signIn" exact component={SignInAndSignUp} />
-        </Switch>
-      
-      <Footer />
-    </BrowserRouter>
+    <div>
+    <Nav />
+    <Header />
+    
+    <Switch>
+    <Route exact path="/" component={HomePage} />
+    <Route path="/shop" exact component={Shop} />
+    <Route path="/signin" exact component={SignInAndSignUp} />
+    </Switch>
+    <Footer />
+    </div>
+   
   );
   }
 }
-export default App;
+
+const mapDispatchToProps = dispatch => ({
+  setUser: user => dispatch(setUser(user))
+})
+
+
+
+export default connect(null , mapDispatchToProps)(App);
